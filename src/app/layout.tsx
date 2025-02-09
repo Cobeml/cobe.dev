@@ -1,10 +1,15 @@
 import "./globals.css"
-import { Inter } from "next/font/google"
+import { Inter, Press_Start_2P } from "next/font/google"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import type React from "react"
 
 const inter = Inter({ subsets: ["latin"] })
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-press-start",
+})
 
 export const metadata = {
   title: "cobe.dev",
@@ -17,10 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" className={pressStart2P.variable}>
       <body
         className={`${inter.className} text-white min-h-screen flex flex-col`}
       >

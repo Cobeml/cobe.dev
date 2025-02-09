@@ -15,8 +15,6 @@ export default function Home() {
   const [typedText, setTypedText] = useState("")
   const fullText = "Hello, I'm Cobe"
 
-  const submitButtonClass = `w-full ${formStatus === 'submitting' ? 'bg-green-800' : 'bg-green-900'} text-white rounded-lg py-2 px-4 hover:bg-green-800 transition-colors ${formStatus === 'submitting' ? 'cursor-not-allowed' : 'cursor-pointer'}`
-
   useEffect(() => {
     let i = 0
     const typingInterval = setInterval(() => {
