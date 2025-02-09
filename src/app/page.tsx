@@ -1,101 +1,290 @@
-import Image from "next/image";
+"use client"
+
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { motion } from "framer-motion"
+import { Waves } from "@/components/ui/waves-background"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'rate-limited'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [typedText, setTypedText] = useState("")
+  const fullText = "Hello, I'm Cobe"
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    let i = 0
+    const typingInterval = setInterval(() => {
+      if (i < fullText.length) {
+        setTypedText(fullText.slice(0, i + 1))
+        i++
+      } else {
+        clearInterval(typingInterval)
+      }
+    }, 100)
+
+    return () => clearInterval(typingInterval)
+  }, [])
+
+  useEffect(() => {
+    // Handle smooth scrolling for hash links
+    const handleHashClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a')
+      if (!link) return
+
+      const href = link.getAttribute('href')
+      if (!href?.startsWith('/#')) return
+
+      e.preventDefault()
+      const sectionId = href.replace('/#', '')
+      const section = document.getElementById(sectionId)
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+
+    document.addEventListener('click', handleHashClick)
+    return () => document.removeEventListener('click', handleHashClick)
+  }, [])
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId)
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  return (
+    <main className="relative min-h-screen">
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <Waves className="h-full" />
+      </div>
+      <div className="container mx-auto px-4 py-8 relative">
+      <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center mb-12">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 pixelated">{typedText}</h1>
+        <p className="text-xl sm:text-2xl mb-8">Full-stack Developer & Problem Solver</p>
+        <Button onClick={() => scrollToSection('contact')} className="hover-effect bg-indigo-500 text-white hover:bg-indigo-600">
+          Hire Me for Freelance Work
+        </Button>
+      </section>
+
+      <motion.section
+        id="about"
+        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl font-bold mb-4 pixelated">About Me</h2>
+        <p className="mb-4 text-lg">
+          Hello! I&apos;m Cobe, a full-stack developer and student at Macaulay Honors College, Brooklyn College. I&apos;m
+          pursuing a Baccalaureate for Unique and Interdisciplinary Studies with concentrations in Physics, Engineering,
+          and Creative Writing.
+        </p>
+        <p className="mb-4 text-lg">
+          My journey in tech has led me to create exciting projects and gain valuable experience in various roles. I&apos;m
+          passionate about building robust web applications and systems very quickly, and I love tackling interesting
+          problems and projects.
+        </p>
+        <p className="text-lg">
+          I&apos;m currently available for freelance work and consulting opportunities. If you have an exciting project or
+          need expert assistance, I&apos;d love to hear from you!
+        </p>
+      </motion.section>
+
+      <motion.section
+        id="skills"
+        className="mb-12"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl font-bold mb-4 pixelated">Skills</h2>
+        <ul className="list-disc list-inside grid grid-cols-2 gap-2 text-lg">
+          <li>Python</li>
+          <li>JavaScript (React, TypeScript)</li>
+          <li>Next.js</li>
+          <li>C</li>
+          <li>SQL</li>
+          <li>Solidity</li>
+          <li>MATLAB</li>
+          <li>AWS</li>
+          <li>Firebase</li>
+          <li>Vercel</li>
+          <li>Machine Learning</li>
+          <li>Data Analysis</li>
+        </ul>
+      </motion.section>
+
+      <motion.section
+        id="projects"
+        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl font-bold mb-4 pixelated">Projects</h2>
+        <div className="grid grid-cols-1 gap-6">
+          <ProjectCard
+            title="Gifted"
+            description="An AI-powered gifting platform that revolutionizes the way people choose and send gifts."
+            link="https://gifted.ink"
+          />
+          <ProjectCard
+            title="Peripatos"
+            description="A full-stack educational marketplace using Next.js 14, TypeScript, and Firebase. Features include real-time data synchronization, secure authentication, and Stripe Connect payment system."
+            link="https://peripatos.network"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </motion.section>
+
+      <motion.section
+        id="experience"
+        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl font-bold mb-4 pixelated">Experience</h2>
+        <div className="space-y-4">
+          <ExperienceItem
+            title="Simulation and Visualization Intern"
+            company="Noblis"
+            period="January 2025 – Present"
+            description="Developed ML driven simulations, built geospatial visualization tools, and collaborated on algorithmic optimization solutions."
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <ExperienceItem
+            title="Software Developer, Operations Administrator, Deckhand"
+            company="Manhattan By Sail"
+            period="June 2022 – August 2024"
+            description="Optimized control systems, engineered a dynamic quote generator, and architected full-stack solutions for booking operations."
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <ExperienceItem
+            title="Computer Vision Research Assistant"
+            company="Rensselaer Polytechnic Institute"
+            period="February 2023 – February 2024"
+            description="Designed and implemented a nuclei detection kernel and analyzed medical images for cancer research."
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+        </div>
+      </motion.section>
+
+      <motion.section
+        id="contact"
+        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl font-bold mb-4 pixelated">Get in Touch</h2>
+        <p className="mb-4 text-lg">
+          I&apos;m always open to new opportunities and collaborations. If you&apos;re interested in working together on a project
+          or need consulting services, please fill out the form below or reach out through my social links.
+        </p>
+        <form className="space-y-4" onSubmit={async (e) => {
+            e.preventDefault();
+            setFormStatus('submitting');
+            
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+            try {
+              const res = await fetch('/api/contact', {
+                method: 'POST',
+                body: JSON.stringify({
+                  name: formData.get('name'),
+                  email: formData.get('email'),
+                  subject: formData.get('subject'),
+                  message: formData.get('message'),
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+              
+              if (!res.ok) {
+                const data = await res.json();
+                if (res.status === 429) {
+                  setFormStatus('rate-limited');
+                  const reset = new Date(Number(res.headers.get('X-Reset-At')));
+                  setErrorMessage(`Too many messages. Please try again after ${reset.toLocaleString()}`);
+                  return;
+                }
+                throw new Error(data.error || 'Failed to send message');
+              }
+              setFormStatus('success');
+              form.reset();
+            } catch (error) {
+              console.error('Form submission error:', error);
+              setFormStatus('error');
+            }
+          }}>
+          <Input name="name" type="text" placeholder="Your Name" required className="text-white" />
+          <Input name="email" type="email" placeholder="Your Email" required className="text-white" />
+          <Input name="subject" type="text" placeholder="Subject" required className="text-white" />
+          {/* Honeypot field - hidden from real users but visible to bots */}
+          <Input 
+            name="phone_number" 
+            type="text" 
+            className="hidden" 
+            tabIndex={-1} 
+            autoComplete="off"
+            aria-hidden="true"
+          />
+          <Textarea name="message" placeholder="Your Message" required className="text-white" />
+          <Button 
+            type="submit" 
+            className="bg-indigo-500 text-white hover:bg-indigo-600"
+            disabled={formStatus === 'submitting'}
+          >
+            {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
+          </Button>
+          {formStatus === 'success' && (
+            <p className="text-green-500 mt-2">Message sent successfully!</p>
+          )}
+          {(formStatus === 'error' || formStatus === 'rate-limited') && (
+            <p className="text-red-500 mt-2">{errorMessage || 'Failed to send message. Please try again.'}</p>
+          )}
+        </form>
+      </motion.section>
+      </div>
+    </main>
+  )
 }
+
+function ProjectCard({ title, description, link }: { title: string; description: string; link: string }) {
+  return (
+    <div className="border border-indigo-500 rounded-lg p-4 hover:bg-indigo-900 transition-colors">
+      <h3 className="text-2xl font-bold mb-2 pixelated">{title}</h3>
+      <p className="mb-4 text-lg">{description}</p>
+      <Button asChild variant="outline" className="bg-indigo-500 text-white hover:bg-indigo-600">
+        <Link href={link} target="_blank" rel="noopener noreferrer">
+          View Project
+        </Link>
+      </Button>
+    </div>
+  )
+}
+
+function ExperienceItem({
+  title,
+  company,
+  period,
+  description,
+}: { title: string; company: string; period: string; description: string }) {
+  return (
+    <div className="border-l-4 border-indigo-500 pl-4">
+      <h3 className="text-xl font-bold">{title}</h3>
+      <p className="text-indigo-400">{company}</p>
+      <p className="text-sm text-gray-400">{period}</p>
+      <p className="mt-2 text-lg">{description}</p>
+    </div>
+  )
+}
+
