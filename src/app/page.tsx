@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -13,6 +14,8 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState('')
   const [typedText, setTypedText] = useState("")
   const fullText = "Hello, I'm Cobe"
+
+  const submitButtonClass = `w-full ${formStatus === 'submitting' ? 'bg-green-800' : 'bg-green-900'} text-white rounded-lg py-2 px-4 hover:bg-green-800 transition-colors ${formStatus === 'submitting' ? 'cursor-not-allowed' : 'cursor-pointer'}`
 
   useEffect(() => {
     let i = 0
@@ -59,27 +62,29 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-blue-900 to-blue-950">
         <Waves className="h-full" />
       </div>
       <div className="container mx-auto px-4 py-8 relative">
       <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center mb-12">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 pixelated">{typedText}</h1>
         <p className="text-xl sm:text-2xl mb-8">Full-stack Developer & Problem Solver</p>
-        <Button onClick={() => scrollToSection('contact')} className="hover-effect bg-indigo-500 text-white hover:bg-indigo-600">
+        <Button onClick={() => scrollToSection('contact')} className="hover-effect bg-green-900 text-white hover:bg-green-800">
           Hire Me for Freelance Work
         </Button>
       </section>
 
       <motion.section
         id="about"
-        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        className="mb-12 bg-green-900/20 backdrop-blur-sm rounded-xl p-8"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-4xl font-bold mb-4 pixelated">About Me</h2>
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="flex-1">
+            <h2 className="text-4xl font-bold mb-4 pixelated">About Me</h2>
         <p className="mb-4 text-lg">
           Hello! I&apos;m Cobe, a full-stack developer and student at Macaulay Honors College, Brooklyn College. I&apos;m
           pursuing a Baccalaureate for Unique and Interdisciplinary Studies with concentrations in Physics, Engineering,
@@ -94,6 +99,17 @@ export default function Home() {
           I&apos;m currently available for freelance work and consulting opportunities. If you have an exciting project or
           need expert assistance, I&apos;d love to hear from you!
         </p>
+          </div>
+          <div className="relative w-full md:w-1/3 aspect-square rounded-lg overflow-hidden">
+            <Image
+              src="/action.jpeg"
+              alt="Action shot of Cobe"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+          </div>
+        </div>
       </motion.section>
 
       <motion.section
@@ -123,7 +139,7 @@ export default function Home() {
 
       <motion.section
         id="projects"
-        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        className="mb-12 bg-green-900/20 backdrop-blur-sm rounded-xl p-8"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -146,7 +162,7 @@ export default function Home() {
 
       <motion.section
         id="experience"
-        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        className="mb-12 bg-green-900/20 backdrop-blur-sm rounded-xl p-8"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -177,7 +193,7 @@ export default function Home() {
 
       <motion.section
         id="contact"
-        className="mb-12 bg-blue-500/20 backdrop-blur-sm rounded-xl p-8"
+        className="mb-12 bg-green-900/20 backdrop-blur-sm rounded-xl p-8"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -240,7 +256,7 @@ export default function Home() {
           <Textarea name="message" placeholder="Your Message" required className="text-white" />
           <Button 
             type="submit" 
-            className="bg-indigo-500 text-white hover:bg-indigo-600"
+            className="bg-green-900 text-white hover:bg-green-800"
             disabled={formStatus === 'submitting'}
           >
             {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
@@ -260,10 +276,10 @@ export default function Home() {
 
 function ProjectCard({ title, description, link }: { title: string; description: string; link: string }) {
   return (
-    <div className="border border-indigo-500 rounded-lg p-4 hover:bg-indigo-900 transition-colors">
+    <div className="border border-green-900 rounded-lg p-4 hover:bg-teal-800 transition-colors">
       <h3 className="text-2xl font-bold mb-2 pixelated">{title}</h3>
       <p className="mb-4 text-lg">{description}</p>
-      <Button asChild variant="outline" className="bg-indigo-500 text-white hover:bg-indigo-600">
+      <Button asChild variant="outline" className="bg-green-900 text-white hover:bg-green-800">
         <Link href={link} target="_blank" rel="noopener noreferrer">
           View Project
         </Link>
@@ -279,9 +295,9 @@ function ExperienceItem({
   description,
 }: { title: string; company: string; period: string; description: string }) {
   return (
-    <div className="border-l-4 border-indigo-500 pl-4">
+    <div className="border-l-4 border-green-900 pl-4">
       <h3 className="text-xl font-bold">{title}</h3>
-      <p className="text-indigo-400">{company}</p>
+      <p className="text-green-500">{company}</p>
       <p className="text-sm text-gray-400">{period}</p>
       <p className="mt-2 text-lg">{description}</p>
     </div>
