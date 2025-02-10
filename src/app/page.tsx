@@ -63,10 +63,10 @@ export default function Home() {
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-blue-900 to-blue-950">
         <Waves className="h-full" />
       </div>
-      <div className="container mx-auto px-4 py-8 relative">
-      <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 pixelated">{typedText}</h1>
-        <p className="text-xl sm:text-2xl mb-8">Full-stack Developer & Problem Solver</p>
+      <div className="container mx-auto px-4 py-16 md:py-8 relative overflow-x-hidden">
+      <section id="hero" className="min-h-[90vh] md:min-h-screen flex flex-col justify-center items-center text-center mb-12 pt-16 md:pt-0">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 pixelated">{typedText}</h1>
+        <p className="text-lg sm:text-xl md:text-2xl mb-8 px-4">Full-stack Developer & Problem Solver</p>
         <Button onClick={() => scrollToSection('contact')} className="hover-effect bg-green-900 text-white hover:bg-green-800">
           Hire Me for Freelance Work
         </Button>
@@ -80,7 +80,7 @@ export default function Home() {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="flex flex-col md:flex-row gap-8 items-start">
+        <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
           <div className="flex-1">
             <h2 className="text-4xl font-bold mb-4 pixelated">About Me</h2>
         <p className="mb-4 text-lg">
@@ -98,7 +98,7 @@ export default function Home() {
           need expert assistance, I&apos;d love to hear from you!
         </p>
           </div>
-          <div className="relative w-full md:w-1/3 aspect-square rounded-lg overflow-hidden">
+          <div className="relative w-2/3 sm:w-1/2 md:w-1/3 aspect-square rounded-lg overflow-hidden">
             <Image
               src="/action.jpeg"
               alt="Action shot of Cobe"
@@ -119,7 +119,7 @@ export default function Home() {
         viewport={{ once: true }}
       >
         <h2 className="text-4xl font-bold mb-4 pixelated">Skills</h2>
-        <ul className="list-disc list-inside grid grid-cols-2 gap-2 text-lg">
+        <ul className="list-disc list-inside grid grid-cols-1 sm:grid-cols-2 gap-2 text-base md:text-lg">
           <li>Python</li>
           <li>JavaScript (React, TypeScript)</li>
           <li>Next.js</li>
@@ -144,7 +144,7 @@ export default function Home() {
         viewport={{ once: true }}
       >
         <h2 className="text-4xl font-bold mb-4 pixelated">Projects</h2>
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
           <ProjectCard
             title="Gifted"
             description="An AI-powered gifting platform that revolutionizes the way people choose and send gifts."

@@ -138,8 +138,8 @@ export function Waves({
   waveSpeedY = 0.005,
   waveAmpX = 32,
   waveAmpY = 16,
-  xGap = 10,
-  yGap = 32,
+  xGap = typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 10,
+  yGap = typeof window !== 'undefined' && window.innerWidth < 768 ? 48 : 32,
   friction = 0.925,
   tension = 0.005,
   maxCursorMove = 100,
@@ -175,8 +175,16 @@ export function Waves({
     function setSize() {
       if (!container || !canvas) return
       boundingRef.current = container.getBoundingClientRect()
-      canvas.width = boundingRef.current.width
-      canvas.height = boundingRef.current.height
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = boundingRef.current.width * dpr
+      canvas.height = boundingRef.current.height * dpr
+      canvas.style.width = `${boundingRef.current.width}px`
+      canvas.style.height = `${boundingRef.current.height}px`
+      
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.scale(dpr, dpr)
+      }
     }
 
     function setLines() {

@@ -2,7 +2,8 @@ import { Github, Linkedin, Twitter } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="p-4 flex justify-center items-center space-x-4">
+    <footer className="p-6 mt-8">
+      <div className="flex justify-center items-center space-x-6">
       <a
         href="https://github.com/Cobeml"
         target="_blank"
@@ -27,6 +28,7 @@ export default function Footer() {
       >
         <Twitter size={24} />
       </a>
+      </div>
     </footer>
   )
 }
